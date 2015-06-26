@@ -1,0 +1,31 @@
+﻿<header>
+	<h3>Autores del proyecto Quiz</h3>
+</header>
+<div id="contenedor">
+<%for (var i in autores) { %>
+
+	<div class='principal'>
+		<article>
+			<p><b><%=autores[i].nombre%></b></p>
+			<img class="autor" src="<%=autores[i].urlfoto%>" width=60px>
+		</article>
+		<aside>
+			<%if (autores[i].urlvideo) {%>
+				<video  class="video_presentacion" controls>
+					<source src="<%=autores[i].urlvideo%>" type="video/mp4">
+				</video>
+			<%}%>
+			
+		</aside>
+		
+	</div>
+	<hr size="2" />
+
+
+
+<%}%>
+
+</div>
+
+
+

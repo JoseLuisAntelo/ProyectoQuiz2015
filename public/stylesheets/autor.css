@@ -1,0 +1,28 @@
+#contenedor {height: 120px;
+			overflow: auto;}
+
+.principal {
+   height: 110px;
+   display: -webkit-flex;
+   display:         flex;
+   flex-flow: row;
+
+}
+.principal article {
+	background: #CFC;
+	flex: 3 1 60%;
+	order: 2;
+}
+
+.principal aside {
+	background: #CFC;
+	flex: 1 6 40%;
+	order: 3;
+}
+
+.video_presentacion {
+	width:90%;
+	height:80%;
+	padding:5px;
+	
+}
