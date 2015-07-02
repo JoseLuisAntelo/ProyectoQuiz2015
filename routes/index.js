@@ -8,9 +8,10 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'Quiz' });
 });
 
-
-router.get('/quizes/question', quizController.question);
-router.get('/quizes/answer', quizController.answer);
+// Definicion de rutas /quizes
+router.get('/quizes', quizController.index);
+router.get('/quizes/:quizId(\\d+)', quizController.show);
+router.get('/quizes/:quizId(\\d+)/answer', quizController.answer);
 
 router.get('/author', function(req, res) {
 	res.render('author', {autores: [{nombre: 'Jose Luis Antelo', urlfoto: '/images/jose.jpg', urlvideo:'/videos/PlayasMallorca.mp4'}, {nombre: 'Enjuto Mojamuto', urlfoto: '/images/enjuto.jpg'}]});

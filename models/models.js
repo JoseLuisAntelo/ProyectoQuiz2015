@@ -37,8 +37,11 @@ sequelize.sync().success(function() {
 		Quiz.count().success(function (count) {
 				if (count === 0) {//Solo se inicializa si la tabla esta vacia
 					Quiz.create({pregunta: 'Capital de Italia',
-								respuesta: 'Roma'}
-						)
+								respuesta: 'Roma'
+						});
+					Quiz.create({pregunta: 'Capital de Portugal',
+								respuesta: 'Lisboa'
+						})
 					.success(function() {console.log('BBDD inicializada')});
 				};
 			});
