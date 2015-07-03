@@ -30,8 +30,20 @@ exports.answer = function (req, res) {
 
 // GET /quizes
 exports.index = function(req, res) {
-	models.Quiz.findAll().then(function(quizes) {
-		res.render('quizes/index.ejs', {quizes: quizes});
-	})
+
+// Aquí distinguimos si hay búsqueda o no
+	if (req.query.search) {
+	// Hay busqueda
+		var texto=("%"+req.query.search+"%").replace(/\s+/ig,"%");  // Reemplazamos los espacios en blanco por %
+		console.log("Texto a buscar: "+texto);
+		models.Quiz.findAll({where:["pregunta like ?",texto], order: 'pregunta ASC'}).then(function(quizes) {
+			res.render('quizes/index.ejs', {quizes: quizes});
+			});
+	} else {
+	// No hay busqueda
+		models.Quiz.findAll().then(function(quizes) {
+			res.render('quizes/index.ejs', {quizes: quizes});
+			})
+	};
 };
 
