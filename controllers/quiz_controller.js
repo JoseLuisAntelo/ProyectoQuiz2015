@@ -36,7 +36,7 @@ exports.index = function(req, res) {
 	// Hay busqueda
 		var texto=("%"+req.query.search+"%").replace(/\s+/ig,"%");  // Reemplazamos los espacios en blanco por %
 		console.log("Texto a buscar: "+texto);
-		models.Quiz.findAll({where:["pregunta like ?",texto], order: 'pregunta ASC'}).then(function(quizes) {
+		models.Quiz.findAll({where:["lower(pregunta) like lower(?)",texto], order: 'pregunta ASC'}).then(function(quizes) {
 			res.render('quizes/index.ejs', {quizes: quizes});
 			});
 	} else {
