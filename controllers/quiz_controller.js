@@ -14,7 +14,7 @@ exports.load = function(req, res, next, quizId) {
 
 //GET /quizes/:id
 exports.show = function (req, res) {
-	res.render('quizes/show',{quiz: req.quiz});
+	res.render('quizes/show',{quiz: req.quiz, errors: []});
 	};
 
 
@@ -24,7 +24,7 @@ exports.answer = function (req, res) {
 	if (req.query.respuesta === req.quiz.respuesta) {
 		resultado="Correcto";
 	}
-	res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado});
+	res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado, errors: []});
 
 };
 
@@ -37,12 +37,12 @@ exports.index = function(req, res) {
 		var texto=("%"+req.query.search+"%").replace(/\s+/ig,"%");  // Reemplazamos los espacios en blanco por %
 		console.log("Texto a buscar: "+texto);
 		models.Quiz.findAll({where:["lower(pregunta) like lower(?)",texto], order: 'pregunta ASC'}).then(function(quizes) {
-			res.render('quizes/index.ejs', {quizes: quizes});
+			res.render('quizes/index.ejs', {quizes: quizes, errors: []});
 			});
 	} else {
 	// No hay busqueda
 		models.Quiz.findAll().then(function(quizes) {
-			res.render('quizes/index.ejs', {quizes: quizes});
+			res.render('quizes/index.ejs', {quizes: quizes, errors: []});
 			})
 	};
 };
@@ -52,16 +52,25 @@ exports.new = function (req, res) {
 	var quiz = models.Quiz.build( //Crea un objeto quiz
 		{pregunta:"Pregunta", respuesta:"Respuesta"}
 	);
-	res.render('quizes/new', {quiz: quiz});
+	res.render('quizes/new', {quiz: quiz, errors: []});
 };
 
 // POST /quizes/create
 exports.create = function(req, res) {
 	var quiz = models.Quiz.build(req.body.quiz);
 	// guarda en la DB los campos pregunta y respuesta de quiz
-	quiz.save({fields: ["pregunta", "respuesta"]}).then(function() {
-			res.redirect('/quizes');
-		}) // Redirección HHTP (URL relativo). Lista de preguntas
+	quiz
+	.validate()
+	.then(
+		function(err) {
+			if (err) {
+				res.render('quizes/new', {quiz: quiz, errors: err.errors});
+			} else {
+				quiz
+				.save({fields: ["pregunta", "respuesta"]})
+				.then(function() {res.redirect('/quizes')})
+			}
+		}); // Redirección HHTP (URL relativo). Lista de preguntas
 
 };
 
