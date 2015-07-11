@@ -100,3 +100,10 @@ exports.update = function(req, res) {
 		}); // Redirección HHTP (URL relativo). Lista de preguntas
 
 };
+
+// DELETE /quizes/:id
+exports.destroy = function(req, res) {
+	req.quiz.destroy().then( function() {
+		res.redirect('/quizes');
+	}).catch(function(error){next(error)});
+};
