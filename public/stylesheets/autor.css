@@ -1,8 +1,8 @@
-#contenedor {height: 120px;
+#contenedor {height: 400px;
 			overflow: auto;}
 
 .principal {
-   height: 110px;
+   height: 180px;
    display: -webkit-flex;
    display:         flex;
    flex-flow: row;
