@@ -42,6 +42,31 @@ app.use(function(req, res, next) {
 	
 });
 
+// Control de tiempo de sesion
+app.use(function(req, res, next) {
+	if (req.session.user) { //Si hay sesion
+		var time = Date.now(); //Tomamos la hora
+		if (!res.locals.session.time) {
+			res.locals.session.time = time; //Si no existe aun, la inicializamos con la hora actual
+		};
+		
+		var lastSession = time - res.locals.session.time
+		if (lastSession >= 120000) { //si es mayor de dos minutos
+			console.log("tiempo en sesion superior a 30s "+lastSession);
+			delete req.session.user;
+			delete res.locals.session.time;
+		} else {
+			console.log("tiempo en sesion "+lastSession);
+			res.locals.session.time = time;
+			
+			
+		};
+		next();
+	} else {
+		next(); // Si no hay sesion, no hace nada.
+	};
+});
+
 app.use('/', routes);
 //app.use('/users', users);
 
