@@ -4,6 +4,7 @@ var router = express.Router();
 var quizController = require('../controllers/quiz_controller');
 var commentController = require('../controllers/comment_controller');
 var sessionController = require('../controllers/session_controller');
+var statisticsController = require('../controllers/statistics_controller');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -39,5 +40,7 @@ router.get('/author', function(req, res) {
 	res.render('author', {autores: [{nombre: 'Jose Luis Antelo', urlfoto: '/images/jose.jpg', urlvideo:'/videos/PlayasMallorca.mp4'}, {nombre: 'Enjuto Mojamuto', urlfoto: '/images/enjuto.jpg'}], errors: []});
 });
 
+// Definicion de rutas de estadisticas
+router.get('/statistics', statisticsController.show);
 
 module.exports = router;
